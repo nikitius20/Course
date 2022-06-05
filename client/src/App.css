@@ -1,0 +1,55 @@
+button{
+  margin: 5px 5px;
+  padding:6px  15px;
+  border: 0;
+  border-top: 2px solid rgb(50, 146, 41);
+  border-bottom: 2px solid rgb(50, 146, 41);
+  font-size: 1.3em;
+  transition-duration: 0.3s;
+}
+button:hover{
+  background-color: rgb(50, 146, 41);
+  color: white;
+  
+}
+input,select{
+  margin: 0 3px;
+  padding:6px  15px;
+}
+.error{
+  width: 50vw;
+  margin: 10px auto;
+  background-color: tomato;
+  color: white;
+}
+.menu-buttons{
+  justify-content: center;
+  display: flex;
+  gap:10px;
+}
+
+
+.user-info{
+  display: flex;
+  gap:20px;
+  justify-content: center;
+}
+
+.SingleQuestion input{
+  margin: 0 15px;
+}
+
+.App {
+  text-align: center;
+}
+li{
+  text-align: left;
+  margin: auto;
+  width: 300px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}

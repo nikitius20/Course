@@ -15,87 +15,113 @@ mongoose.connect(
 );
 
 app.get("/getAllQuestions", (req, res) => {
-  QuestionModel.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-app.get("/getQuestions", (req, res) => {
-  console.log(req.body);
-  QuestionModel.find({ theme: req.query.theme }, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  }).limit(req.query.countOfQuestions);
-});
-
-app.get("/getTests", (req, res) => {
-  console.log(req.body);
-  TestModel.find({ userId: req.query.userId }, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-app.get("/getUser", (req, res) => {
-  UserModel.find(
-    { login: req.query.login, password: req.query.password },
-    (err, result) => {
+  try {
+    QuestionModel.find({}, (err, result) => {
       if (err) {
         res.json(err);
       } else {
-        if (result) {
-          res.json(result);
+        res.status(200).json(result);
+      }
+    });
+  } catch (er) {
+    return res.status(500).json(err);
+  }
+});
+
+app.get("/getQuestions", (req, res) => {
+  try {
+    QuestionModel.find({ theme: req.query.theme }, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.status(200).json(result);
+      }
+    }).limit(req.query.countOfQuestions);
+  } catch (er) {
+    return res.status(500).json(err);
+  }
+});
+
+app.get("/getTests", (req, res) => {
+  try {
+    TestModel.find({ userId: req.query.userId }, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  } catch (er) {
+    return res.status(500).json(err);
+  }
+});
+
+app.get("/getUser", (req, res) => {
+  try {
+    UserModel.find(
+      { login: req.query.login, password: req.query.password },
+      (err, result) => {
+        if (err) {
+          res.json(err);
         } else {
-          res.send(false);
+          if (result) {
+            res.status(200).json(result);
+          } else {
+            res.status(200).send(false);
+          }
         }
       }
-    }
-  );
+    );
+  } catch (er) {
+    return res.status(500).json(err);
+  }
 });
 
 app.get("/getThemes", (req, res) => {
-  QuestionModel.find({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      const themesArray = [];
-      //const array = result.json();
-      result.forEach((el) => {
-        if (!themesArray.includes(el.theme)) {
-          themesArray.push(el.theme);
-        }
-      });
-      console.log(themesArray);
-      res.json(themesArray);
-    }
-  });
+  try {
+    QuestionModel.find({}, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        const themesArray = [];
+        //const array = result.json();
+        result.forEach((el) => {
+          if (!themesArray.includes(el.theme)) {
+            themesArray.push(el.theme);
+          }
+        });
+        console.log(themesArray);
+        res.status(200).json(themesArray);
+      }
+    });
+  } catch (er) {
+    return res.status(500).json(err);
+  }
 });
 
 app.get("/getLastTest", (req, res) => {
-  TestModel.findOne({}, (err, result) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(result);
-    }
-  }).sort({ _id: -1 });
+  try {
+    TestModel.findOne({}, (err, result) => {
+      if (err) {
+        res.json(err);
+      } else {
+        res.json(result);
+      }
+    }).sort({ _id: -1 });
+  } catch (er) {
+    return res.status(500).json(err);
+  }
 });
 app.post("/addUser", async (req, res) => {
-  const user = req.body;
-  const newUser = new UserModel(user);
-  await newUser.save();
+  try {
+    const user = req.body;
+    const newUser = new UserModel(user);
+    await newUser.save();
 
-  res.json(user);
+    res.status(200).json(user);
+  } catch (er) {
+    return res.status(500).json(err);
+  }
 });
 
 app.post("/addTest", async (req, res) => {
@@ -111,18 +137,17 @@ app.post("/addTest", async (req, res) => {
 });
 
 app.post("/addQuestion", async (req, res) => {
-  const question = req.body;
-  const newQuestion = new QuestionModel(question);
-  await newQuestion.save();
+  try {
+    const question = req.body;
+    const newQuestion = new QuestionModel(question);
+    await newQuestion.save();
 
-  res.json(question);
+    res.status(200).json(question);
+  } catch (er) {
+    return res.status(500).json(err);
+  }
 });
+
 app.listen(process.env.PORT || 3001, () => {
   console.log("server started");
 });
-
-function add(x, y) {
-  return x + y;
-}
-
-module.exports = add;
